@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
-    int quantity = 2;
+    int quantity = 0;
     int price =0;
 
 
@@ -27,21 +28,35 @@ public class MainActivity extends AppCompatActivity {
     public void submitOrder(View view) {
 
         //display(quantity);
+        EditText noc =(EditText) findViewById(R.id.quantity_text_view) ;
+        String c =noc.getText().toString();
+        quantity =Integer.parseInt(c);
+
+        EditText text =(EditText) findViewById(R.id.name) ;
+        String username =text.getText().toString();
+        Log.v("MainActivity","Name"+username);
+
         CheckBox whippedcreamcheckbox = (CheckBox)findViewById(R.id.whipped_cream_checkbox);
         Boolean haswhippedcream =whippedcreamcheckbox.isChecked();
-        Log.v("MainActivity","has whipped cream"+ haswhippedcream);
+        CheckBox Chocolatecheckbox =(CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean haschocolate =Chocolatecheckbox.isChecked();
 
         int price = calculatePrice();
-        displayMessage(createordersummary(price ,quantity,haswhippedcream));
+        displayMessage(createordersummary(username,price ,quantity,haswhippedcream,haschocolate));
         //displayPrice(price);
     }
     public void increment(View view){
-        quantity=quantity+1;
-        display(quantity);
-    }
+        if (quantity<=100)
+        {quantity=quantity+1;
+            display(quantity);}
+        else
+        {display(quantity);}}
     public void decrement(View view){
-        quantity=quantity-1;
-        display(quantity);
+        if (quantity>0)
+        {quantity=quantity-1;
+            display(quantity);}
+        else
+        {display(quantity);}
     }
     private void display(int number) {
         TextView quantityTextView = (TextView) findViewById(
@@ -67,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         ordersummaryTextView.setText(message);
     }
 
-    private String createordersummary(int q ,int p ,boolean haswhip) {
-        return ("NAME: Kaptain Kunak\nhas whipped cream: "+haswhip+"\n" + "Quantity:" + q + "\nTotal:" + p + "\nThankyou!");
+    private String createordersummary(String username,int q ,int p ,boolean haswhip,boolean haschoc) {
+        return ("NAME: "+username+"\n whipped cream: "+haswhip+"\nhas chocolate: "+haschoc+"\n" + "Quantity:" + q + "\nTotal:" + p + "\nThankyou!");
     }
 
 }
