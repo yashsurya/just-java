@@ -1,5 +1,7 @@
 package com.example.android.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //displayPrice(price);
     }
     public void increment(View view){
-        if (quantity<=100)
+        if (quantity<100)
         {quantity=quantity+1;
             display(quantity);}
         else
@@ -83,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String createordersummary(String username,int q ,int p ,boolean haswhip,boolean haschoc) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, "yashsurya1105@gmail.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "nothing");
+        intent.putExtra(Intent.EXTRA_TEXT, ("NAME: "+username+"\n whipped cream: "+haswhip+"\nhas chocolate: "+haschoc+"\n" + "Quantity:" + q + "\nTotal:" + p + "\nThankyou!"));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
         return ("NAME: "+username+"\n whipped cream: "+haswhip+"\nhas chocolate: "+haschoc+"\n" + "Quantity:" + q + "\nTotal:" + p + "\nThankyou!");
     }
 
